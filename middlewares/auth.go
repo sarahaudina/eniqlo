@@ -66,10 +66,9 @@ func CheckAuth(c *gin.Context) {
 	// 	return
 	// }
 
-	userId := claims["id"]
+	staffId := claims["id"]
 
-	c.Set("userId", userId)
+	c.Set("id", staffId)
 
 	c.Next()
-
 }

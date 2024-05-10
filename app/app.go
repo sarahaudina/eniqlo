@@ -9,6 +9,7 @@ import (
  "github.com/gin-gonic/gin"
 
  "com.eniqlo/controllers"
+ "com.eniqlo/middlewares"
 )
 
 type App struct {
@@ -28,10 +29,29 @@ func (a *App) CreateConnection(){
 func (a *App) CreateRoutes() {
  routes := gin.Default()
 
- // auth
+ // Staff
+ staffController := controllers.NewStaffController(a.DB)
+ routes.POST("/staff/register", staffController.Register)
+ routes.POST("/staff/login", staffController.Login)
+ 
+ // Customer, pass staff token here
  customerController := controllers.NewCustomerController(a.DB)
- routes.GET("/customer", customerController.FindCustomer)
- routes.POST("/customer/register", customerController.CreateCustomer)
+ routes.POST("/customer/register", middlewares.CheckAuth, customerController.Register)
+ routes.GET("/customer", middlewares.CheckAuth, customerController.FindCustomers)
+
+ // Products, pass staff token here
+ productController := controllers.NewProductController(a.DB)
+ routes.POST("/product", middlewares.CheckAuth, productController.AddProduct)
+ routes.GET("/product", middlewares.CheckAuth, productController.FindProducts)
+ routes.PUT("/product/:id", middlewares.CheckAuth, productController.UpdateProduct)
+ routes.DELETE("/product/:id", middlewares.CheckAuth, productController.DeleteProduct)
+
+ // Customer facing product endpoint
+ routes.GET("/product/customer", productController.FindProducts)
+
+
+ // checkouts. pass staff token here. todo: create checkout and get checkouts
+ // routes.POST("/product/checkout", productController.CheckoutProduct)
 
  a.Routes = routes
 }

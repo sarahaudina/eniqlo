@@ -31,8 +31,10 @@ func (m *CustomerRepository) CreateCustomer(post models.CreateCustomer) bool {
  return true
 }
 
-func (m *CustomerRepository) FindCustomer(name string) *models.Customer {
-    rows, err := m.DB.Query("SELECT * FROM customers WHERE name = $1 LIMIT 1", name)
+func (m *CustomerRepository) FindCustomers() []models.Customer {
+    var result []models.Customer
+
+    rows, err := m.DB.Query("SELECT * FROM customers")
 
     if err != nil {
      log.Println(err)
@@ -53,9 +55,9 @@ func (m *CustomerRepository) FindCustomer(name string) *models.Customer {
          return nil
         } else {
          cust := models.Customer{ID: id, Name: name, PhoneNumber: phone_number, CreatedAt: created_at, UpdatedAt: updated_at}
-         return &cust
+         result = append(result, cust)
         }
     }
 
-    return nil
+    return result
 }

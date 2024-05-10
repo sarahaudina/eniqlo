@@ -1,9 +1,8 @@
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  customer_id INTEGER REFERENCES customers(id) NOT NULL,  -- Foreign key to customers table
   sku VARCHAR(255) NOT NULL UNIQUE,  -- Unique identifier for product
   image_url VARCHAR(255),
   notes TEXT,  -- Allows longer text for notes

@@ -9,7 +9,6 @@ type Product struct {
 	Name  string `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	CustomerId uint   `json:"customer_id"`
 	Sku string `json:"sku"`
 	ImageUrl string `json:"image_url"`
 	Notes string `json:"notes"`
@@ -21,7 +20,6 @@ type Product struct {
 
 type CreateProduct struct {
 	Name  string `json:"name"`
-	CustomerId uint   `json:"customer_id"`
 	Sku string `json:"sku"`
 	ImageUrl string `json:"image_url"`
 	Notes string `json:"notes"`

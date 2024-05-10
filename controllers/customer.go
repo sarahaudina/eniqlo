@@ -19,18 +19,18 @@ func NewCustomerController(db *sql.DB) CustomerController {
 	return CustomerController{DB: db}
 }
 
-func (m *CustomerController) FindCustomer(g *gin.Context) {
+func (m *CustomerController) FindCustomers(g *gin.Context) {
 	db := m.DB
 	repo_cust := repositories.NewCustomerRepository(db)
-	find_cust := repo_cust.FindCustomer("sarah")
-	if find_cust != nil {
-	 g.JSON(200, gin.H{"status": "success", "data": find_cust, "msg": "get manga successfully"})
+	customers := repo_cust.FindCustomers()
+	if customers != nil {
+	 g.JSON(200, gin.H{"status": "success", "data": customers, "msg": "get manga successfully"})
 	} else {
 	 g.JSON(200, gin.H{"status": "success", "data": nil, "msg": "get manga successfully"})
 	}
 }
 
-func (m *CustomerController) CreateCustomer(c *gin.Context) {
+func (m *CustomerController) Register(c *gin.Context) {
 
 	var input models.CreateCustomer
 
